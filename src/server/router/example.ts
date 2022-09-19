@@ -7,9 +7,11 @@ export const exampleRouter = createRouter().query("hello", {
       text: z.string().nullish(),
     })
     .nullish(),
-  resolve({ input }) {
+  async resolve({ input, ctx }) {
+    const admin = await ctx.client.admins.authViaEmail("vasek.pirou@gmail.com", "Kokotbananekmuj.OO")
+
     return {
-      greeting: `Hello ${input?.text ?? "world"}`,
+      greeting: admin,
     };
   },
 });
