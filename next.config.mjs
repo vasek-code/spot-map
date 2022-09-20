@@ -12,9 +12,9 @@ const __dirname = path.dirname(__filename);
  * @param {T} config - A generic parameter that flows through to the return type
  * @constraint {{import('next').NextConfig}}
  */
-function defineNextConfig(config) {
+const defineNextConfig = (config) => {
   return config;
-}
+};
 
 export default defineNextConfig({
   reactStrictMode: true,
