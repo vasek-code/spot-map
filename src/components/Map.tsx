@@ -4,7 +4,6 @@ import { env } from "../env/client.mjs";
 import getCurrentPosition from "../utils/getCurrentPosition";
 import removeElementsByQuery from "../utils/removeElementsByQuery";
 import mapStyle from "../assets/json/map-style.json";
-import addStylesUsingQuery from "../utils/addStylesUsingQuery";
 
 export const Map: React.FC = () => {
   const [center, setCenter] = useState<{ lat: number; lng: number }>({
@@ -36,12 +35,9 @@ export const Map: React.FC = () => {
           ".gm-style-mtc",
           "div[data-control-height='81']",
           "div[jstcache='82']",
+          ".gmnoprint",
         ]);
       }, 10);
-
-      setTimeout(() => {
-        addStylesUsingQuery([".gm-svpc"], { borderRadius: "10px" });
-      }, 1000);
     },
     [center]
   );
