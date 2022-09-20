@@ -1,31 +1,44 @@
-import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
-import React, { useCallback, useState } from "react";
+import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
+import React, { useCallback, useEffect, useState } from "react";
 import { env } from "../env/client.mjs";
+import getCurrentPosition from "../utils/getCurrentPosition";
 import removeElementsByQuery from "../utils/removeElementsByQuery";
+import mapStyle from "../assets/json/map-style.json";
 
-export const Map = () => {
+export const Map: React.FC = () => {
+  const [center, setCenter] = useState<{ lat: number; lng: number }>({
+    lat: 0,
+    lng: 0,
+  });
+
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: env.NEXT_PUBLIC_GOOGLE_API_KEY,
   });
 
-  const onLoad = useCallback((map: google.maps.Map) => {
-    const bounds = new window.google.maps.LatLngBounds({
-      lat: 1,
-      lng: 1,
+  useEffect(() => {
+    getCurrentPosition().then(({ lat, lng }) => {
+      setCenter({ lat, lng });
     });
-    map.fitBounds(bounds);
-
-    setTimeout(() => {
-      removeElementsByQuery([
-        ".gm-control-active",
-        ".gm-style-cc",
-        ".gm-svpc",
-        "img[alt='Google']",
-        ".gm-bundled-control",
-      ]);
-    }, 500);
   }, []);
+
+  const onLoad = useCallback(
+    (map: google.maps.Map) => {
+      const bounds = new window.google.maps.LatLngBounds(center);
+      map.fitBounds(bounds);
+
+      setTimeout(() => {
+        removeElementsByQuery([
+          ".gm-control-active",
+          ".gm-style-cc",
+          ".gm-svpc",
+          "img[alt='Google']",
+          ".gm-bundled-control",
+        ]);
+      }, 500);
+    },
+    [center]
+  );
 
   const onUnmount = useCallback(() => {
     return;
@@ -37,16 +50,21 @@ export const Map = () => {
         width: "100%",
         height: "100vh",
       }}
-      center={{
-        lat: 1,
-        lng: 1,
-      }}
-      zoom={10}
+      center={center}
       onLoad={onLoad}
       onUnmount={onUnmount}
+      options={{ styles: mapStyle }}
     >
-      {/* Child components, such as markers, info windows, etc. */}
-      <></>
+      <Marker
+        position={{
+          lat: center.lat + 0.001,
+          lng: center.lng + 0.001,
+        }}
+        icon={{
+          url: "/images/place-marker.svg",
+          scaledSize: new window.google.maps.Size(50, 50),
+        }}
+      />
     </GoogleMap>
   ) : (
     <></>
