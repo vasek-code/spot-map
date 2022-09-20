@@ -34,6 +34,7 @@ export const Map: React.FC = () => {
           ".gm-svpc",
           "img[alt='Google']",
           ".gm-bundled-control",
+          ".gmnoprint",
         ]);
       }, 500);
     },
