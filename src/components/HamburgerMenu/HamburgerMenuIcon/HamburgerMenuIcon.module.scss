@@ -9,7 +9,7 @@
     transform: translateX(0px);
   }
   to {
-    transform: translateX(120px);
+    transform: translateX(140px);
   }
 }
 
@@ -21,7 +21,7 @@
 
 @keyframes closed {
   from {
-    transform: translateX(120px);
+    transform: translateX(140px);
   }
   to {
     transform: translateX(0px);

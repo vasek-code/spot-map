@@ -1,0 +1,59 @@
+.opened {
+  animation-name: opened;
+  animation-duration: 0.5s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes opened {
+  from {
+    transform: translateX(-200px);
+  }
+  to {
+    transform: translateX(0px);
+  }
+}
+
+.closed {
+  animation-name: closed;
+  animation-duration: 0.5s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes closed {
+  from {
+    transform: translateX(0px);
+  }
+  to {
+    transform: translateX(-200px);
+  }
+}
+
+.bgOpened {
+  animation-name: bgOpened;
+  animation-duration: 0.5s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes bgOpened {
+  from {
+    opacity: 0%;
+  }
+  to {
+    opacity: 80%;
+  }
+}
+
+.bgClosed {
+  animation-name: bgClosed;
+  animation-duration: 0.5s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes bgClosed {
+  from {
+    opacity: 80%;
+  }
+  to {
+    opacity: 0%;
+  }
+}

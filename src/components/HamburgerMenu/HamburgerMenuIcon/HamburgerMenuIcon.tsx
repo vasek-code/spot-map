@@ -3,8 +3,8 @@ import styles from "./HamburgerMenuIcon.module.scss";
 
 export const HamburgerMenuIcon: React.FC<{
   onClick: React.MouseEventHandler<HTMLDivElement>;
-}> = ({ onClick }) => {
-  const [opened, setOpened] = useState(false);
+  opened: boolean;
+}> = ({ onClick, opened }) => {
   const [clicked, setClicked] = useState(false);
 
   return (
@@ -14,8 +14,6 @@ export const HamburgerMenuIcon: React.FC<{
       }`}
       onClick={(e) => {
         setClicked(true);
-
-        setOpened(!opened);
 
         onClick(e);
       }}
