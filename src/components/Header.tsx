@@ -1,5 +1,5 @@
 import React from "react";
-import { HamburgerMenuIcon } from "./HamburgerMenu/HamburgerMenuIcon";
+import { HamburgerMenuIcon } from "./HamburgerMenu/HamburgerMenuIcon/HamburgerMenuIcon";
 
 const Header: React.FC = () => {
   return (
