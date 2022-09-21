@@ -1,4 +1,4 @@
-import React, { Children } from "react";
+import React from "react";
 import styles from "./HamburgerMenuBody.module.scss";
 
 export const HamburgerMenuBody: React.FC<{
