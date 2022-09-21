@@ -1,22 +1,17 @@
-import React, { useState } from "react";
+import React from "react";
 import styles from "./HamburgerMenuIcon.module.scss";
 
 export const HamburgerMenuIcon: React.FC<{
-  onClick: React.MouseEventHandler<HTMLDivElement>;
+  onClick?: React.MouseEventHandler<HTMLDivElement>;
   opened: boolean;
-}> = ({ onClick, opened }) => {
-  const [clicked, setClicked] = useState(false);
-
+  clicked: boolean;
+}> = ({ opened, clicked, onClick }) => {
   return (
     <div
       className={`w-11 h-11 flex items-center justify-center rounded-full hover:bg-zinc-200 cursor-pointer ${
         clicked ? (opened ? styles.opened : styles.closed) : ""
       }`}
-      onClick={(e) => {
-        setClicked(true);
-
-        onClick(e);
-      }}
+      onClick={onClick}
     >
       <div className="w-7 h-7 flex-col gap-3 flex items-center justify-center">
         <svg
