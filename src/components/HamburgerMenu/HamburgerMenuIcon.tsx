@@ -1,8 +1,13 @@
 import React from "react";
 
-export const HamburgerMenuIcon = () => {
+export const HamburgerMenuIcon: React.FC<{
+  onClick: React.MouseEventHandler<HTMLDivElement>;
+}> = ({ onClick }) => {
   return (
-    <div className="w-11 h-11 flex items-center justify-center rounded-full hover:bg-zinc-200 cursor-pointer">
+    <div
+      className="w-11 h-11 flex items-center justify-center rounded-full hover:bg-zinc-200 cursor-pointer"
+      onClick={onClick}
+    >
       <div className="w-7 h-7 flex-col gap-3 flex items-center justify-center">
         <svg
           viewBox="0 0 24 24"
