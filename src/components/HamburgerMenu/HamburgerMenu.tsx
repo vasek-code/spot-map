@@ -22,8 +22,12 @@ export const HamburgerMenu = () => {
         opened={opened}
       />
       <HamburgerMenuBody opened={opened} clicked={clicked}>
-        <HamburgerMenuButton Icon={HiHome} content="Home" link="/" />
-        <HamburgerMenuButton Icon={GrMap} content="Map" link="/map" />
+        <HamburgerMenuButton Icon={HiHome} link="/">
+          Home
+        </HamburgerMenuButton>
+        <HamburgerMenuButton Icon={GrMap} link="/map">
+          Map
+        </HamburgerMenuButton>
       </HamburgerMenuBody>
     </>
   );
