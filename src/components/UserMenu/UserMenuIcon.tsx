@@ -17,7 +17,7 @@ export const UserMenuIcon: React.FC<{
       }}
     >
       <img
-        src="https://yt3.ggpht.com/yti/AJo0G0nU130wO4fcQvGE_fnQxbe8Yj2bLVxA7ladTzib=s88-c-k-c0x00ffffff-no-rj-mo"
+        src="https://d1nhio0ox7pgb.cloudfront.net/_img/o_collection_png/green_dark_grey/512x512/plain/view_1_1.png"
         alt="user icon"
         className="w-full h-full rounded-full kokotko"
       />

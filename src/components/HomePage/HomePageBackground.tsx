@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { HomePageMarker } from "./HomePageMarker/HomePageMarker";
 
 export const HomePageBackground = () => {
-  const [markers, setMarkers] = useState<number[]>([1, 2, 3, 4, 5]);
+  const [markers, setMarkers] = useState<number[]>([1, 2, 3, 4, 5, 6, 7, 8, 9]);
 
   useEffect(() => {
     setInterval(() => {

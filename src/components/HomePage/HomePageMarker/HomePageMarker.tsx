@@ -20,6 +20,9 @@ export const HomePageMarker = React.memo(
     useEffect(() => {
       const timeout = setTimeout(() => {
         setVisible(false);
+        setTimeout(() => {
+          document.querySelectorAll("img[alt='marker']")[0]?.remove();
+        }, 1000);
       }, randomNumber({ min: 3000, max: 7000 }));
 
       return () => {

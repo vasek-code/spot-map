@@ -7,7 +7,7 @@ export const HamburgerMenuIcon: React.FC<{
 }> = ({ onClick }) => {
   return (
     <div
-      className="w-11 h-11 flex items-center justify-center rounded-full hover:bg-zinc-200 cursor-pointer"
+      className="w-11 h-11 flex items-center justify-center rounded-full hover:bg-zinc-200 transition-all active:bg-zinc-300 cursor-pointer"
       style={{
         minWidth: "2.75rem",
         minHeight: "2.75rem",
