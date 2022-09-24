@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import { HiOutlineLocationMarker, HiOutlineCog } from "react-icons/hi";
 import { RiUserLine } from "react-icons/ri";
-import { GoSignOut } from "react-icons/go";
+import { VscSignOut } from "react-icons/vsc";
 
 import { UserMenuBody } from "./UserMenuBody/UserMenuBody";
 import { UserMenuButton } from "./UserMenuButton";
@@ -22,14 +22,16 @@ export const UserMenu = () => {
         }}
       />
       <UserMenuBody opened={opened} clicked={clicked}>
-        <UserMenuButton Icon={RiUserLine} top>
+        <UserMenuButton link="/" Icon={RiUserLine} top>
           Profile
         </UserMenuButton>
-        <UserMenuButton Icon={HiOutlineLocationMarker}>
+        <UserMenuButton link="/" Icon={HiOutlineLocationMarker}>
           My places
         </UserMenuButton>
-        <UserMenuButton Icon={HiOutlineCog}>Settings</UserMenuButton>
-        <UserMenuButton Icon={GoSignOut} bottom>
+        <UserMenuButton link="/" Icon={HiOutlineCog}>
+          Settings
+        </UserMenuButton>
+        <UserMenuButton link="/" Icon={VscSignOut} bottom>
           Sign Out
         </UserMenuButton>
       </UserMenuBody>

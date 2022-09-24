@@ -8,6 +8,12 @@ export const HamburgerMenuIcon: React.FC<{
   return (
     <div
       className="w-11 h-11 flex items-center justify-center rounded-full hover:bg-zinc-200 cursor-pointer"
+      style={{
+        minWidth: "2.75rem",
+        minHeight: "2.75rem",
+        height: "2.75rem",
+        width: "2.75rem",
+      }}
       onClick={onClick}
     >
       <div className="w-7 h-7 flex-col gap-3 flex items-center justify-center">
