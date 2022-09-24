@@ -19,7 +19,7 @@ const Home: NextPage = () => {
           />
         </div>
         <div className="flex w-full h-full justify-center flex-col gap-3 absolute">
-          <h1 className="text-8xl font-extrabold text-center">Spot Map</h1>
+          <h1 className="text-8xl font-extrabold text-center">Spotter</h1>
           <h2 className="text-xl text-center">
             Find best spots for your next film scenes or photos.
           </h2>

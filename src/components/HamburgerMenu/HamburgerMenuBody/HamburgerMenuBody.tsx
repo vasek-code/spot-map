@@ -1,4 +1,6 @@
 import React from "react";
+import ReactDOM from "react-dom";
+import { HamburgerMenuBackground } from "../HamburgerMenuBackground/HamburgerMenuBackground";
 import styles from "./HamburgerMenuBody.module.scss";
 
 export const HamburgerMenuBody: React.FC<{
@@ -7,7 +9,9 @@ export const HamburgerMenuBody: React.FC<{
   clicked: boolean;
   children: React.ReactNode;
 }> = ({ opened, clicked, children }) => {
-  return (
+  if (!clicked) return null;
+
+  return ReactDOM.createPortal(
     <>
       <div
         className={`min-h-screen bg-zinc-100 absolute z-10 top-20 ${
@@ -21,15 +25,8 @@ export const HamburgerMenuBody: React.FC<{
       >
         {children}
       </div>
-      <div
-        className={`w-full bg-stone-800 opacity-0 absolute top-20 ${
-          clicked ? (opened ? styles.bgOpened : styles.bgClosed) : ""
-        }`}
-        style={{
-          left: "0px",
-          height: "100vh",
-        }}
-      />
-    </>
+      <HamburgerMenuBackground clicked={clicked} opened={opened} />
+    </>,
+    document.getElementById("menu") as Element
   );
 };

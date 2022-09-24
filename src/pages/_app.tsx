@@ -8,7 +8,12 @@ import type { AppRouter } from "../server/router";
 import "../styles/globals.css";
 
 const MyApp: AppType = ({ Component, pageProps }) => {
-  return <Component {...pageProps} />;
+  return (
+    <>
+      <Component {...pageProps} />
+      <div id="hamburgermenu" />
+    </>
+  );
 };
 
 const getBaseUrl = () => {

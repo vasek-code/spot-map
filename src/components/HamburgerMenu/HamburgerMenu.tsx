@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 
 import { GrMap } from "react-icons/gr";
-import { HiHome } from "react-icons/hi";
+import { BiHome } from "react-icons/bi";
+import { FiUser } from "react-icons/fi";
 
 import { HamburgerMenuBody } from "./HamburgerMenuBody/HamburgerMenuBody";
 import { HamburgerMenuButton } from "./HamburgerMenuButton/HamburgerMenuButton";
@@ -22,11 +23,14 @@ export const HamburgerMenu = () => {
         opened={opened}
       />
       <HamburgerMenuBody opened={opened} clicked={clicked}>
-        <HamburgerMenuButton Icon={HiHome} link="/">
+        <HamburgerMenuButton Icon={BiHome} link="/">
           Home
         </HamburgerMenuButton>
         <HamburgerMenuButton Icon={GrMap} link="/map">
           Map
+        </HamburgerMenuButton>
+        <HamburgerMenuButton Icon={FiUser} link="/map">
+          Sign In
         </HamburgerMenuButton>
       </HamburgerMenuBody>
     </>
