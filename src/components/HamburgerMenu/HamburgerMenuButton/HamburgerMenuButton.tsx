@@ -9,8 +9,8 @@ export const HamburgerMenuButton: React.FC<{
 }> = ({ Icon, link, children }) => {
   return (
     <Link href={link}>
-      <div className="w-full h-16 border-b-2 flex items-center justify-between px-5 hover:bg-zinc-200 cursor-pointer">
-        <h1 className="font-bold text-lg">{children}</h1>
+      <div className="w-full h-16 border-b-2 flex items-center justify-between px-5 hover:bg-zinc-200 cursor-pointer transition-all">
+        <h1 className="font-bold text-base">{children}</h1>
         <Icon size={30} />
       </div>
     </Link>

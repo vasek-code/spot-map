@@ -1,16 +1,13 @@
 import React from "react";
-import styles from "./HamburgerMenuIcon.module.scss";
 
 export const HamburgerMenuIcon: React.FC<{
   onClick?: React.MouseEventHandler<HTMLDivElement>;
   opened: boolean;
   clicked: boolean;
-}> = ({ opened, clicked, onClick }) => {
+}> = ({ onClick }) => {
   return (
     <div
-      className={`w-11 h-11 flex items-center justify-center rounded-full hover:bg-zinc-200 cursor-pointer ${
-        clicked ? (opened ? styles.opened : styles.closed) : ""
-      }`}
+      className="w-11 h-11 flex items-center justify-center rounded-full hover:bg-zinc-200 cursor-pointer"
       onClick={onClick}
     >
       <div className="w-7 h-7 flex-col gap-3 flex items-center justify-center">
