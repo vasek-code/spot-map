@@ -14,7 +14,7 @@ export const HamburgerMenuBody: React.FC<{
   return ReactDOM.createPortal(
     <>
       <div
-        className={`min-h-screen bg-zinc-100 absolute z-10 top-20 ${
+        className={`min-h-screen bg-zinc-100 absolute top-20 ${
           clicked ? (opened ? styles.opened : styles.closed) : ""
         }`}
         style={{
@@ -24,8 +24,8 @@ export const HamburgerMenuBody: React.FC<{
         }}
       >
         {children}
+        <HamburgerMenuBackground clicked={clicked} opened={opened} />
       </div>
-      <HamburgerMenuBackground clicked={clicked} opened={opened} />
     </>,
     document.getElementById("menu") as Element
   );

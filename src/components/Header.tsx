@@ -10,7 +10,7 @@ import { UserMenu } from "./UserMenu/UserMenu";
 
 const Header: React.FC = () => {
   return (
-    <header className="w-full absolute h-20 bg-zinc-100 z-10 border-b-zinc-300 border-b-2 flex items-center p-5 justify-between gap-3">
+    <header className="w-full z-20 absolute h-20 bg-zinc-100 border-b-zinc-300 border-b-2 flex items-center p-5 justify-between gap-3">
       <div className="flex justify-between items-center">
         <HamburgerMenu />
         <Link href="/">

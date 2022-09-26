@@ -17,7 +17,7 @@ export const UserMenuIcon: React.FC<{
       }}
     >
       <img
-        src="https://d1nhio0ox7pgb.cloudfront.net/_img/o_collection_png/green_dark_grey/512x512/plain/view_1_1.png"
+        src="http://simpleicon.com/wp-content/uploads/talk_1.svg"
         alt="user icon"
         className="w-full h-full rounded-full kokotko"
       />

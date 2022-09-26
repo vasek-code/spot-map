@@ -5,8 +5,8 @@ export default function Document() {
     <Html>
       <Head />
       <body>
+        <div id="menu" className="z-20 absolute w-full" />
         <Main />
-        <div id="menu" />
         <NextScript />
       </body>
     </Html>

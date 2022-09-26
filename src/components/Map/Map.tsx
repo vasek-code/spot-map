@@ -1,9 +1,10 @@
-import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
+import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
 import React, { useCallback, useEffect, useState } from "react";
-import { env } from "../env/client.mjs";
-import getCurrentPosition from "../utils/getCurrentPosition";
-import removeElementsByQuery from "../utils/removeElementsByQuery";
-import mapStyle from "../assets/json/map-style.json";
+import { env } from "../../env/client.mjs";
+import getCurrentPosition from "../../utils/getCurrentPosition";
+import removeElementsByQuery from "../../utils/removeElementsByQuery";
+import mapStyle from "../../assets/json/map-style.json";
+import { MapMarker } from "./MapMarker";
 
 export const Map: React.FC = () => {
   const [center, setCenter] = useState<{ lat: number; lng: number }>({
@@ -51,22 +52,14 @@ export const Map: React.FC = () => {
       mapContainerStyle={{
         width: "100%",
         height: "100vh",
+        position: "absolute",
       }}
       center={center}
       onLoad={onLoad}
       onUnmount={onUnmount}
       options={{ styles: mapStyle }}
     >
-      <Marker
-        position={{
-          lat: center.lat + 0.001,
-          lng: center.lng + 0.001,
-        }}
-        icon={{
-          url: "/images/place-marker.svg",
-          scaledSize: new window.google.maps.Size(50, 50),
-        }}
-      />
+      <MapMarker />
     </GoogleMap>
   ) : (
     <></>
