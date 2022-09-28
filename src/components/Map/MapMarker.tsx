@@ -1,10 +1,12 @@
 import { Marker } from "@react-google-maps/api";
 import React, { useState } from "react";
 import { useCurrentPosition } from "../../hooks/useCurrentPosition";
-import { MapDetail } from "./MaoDetail/MapDetail";
+import { MapDetail } from "./MapDetail/MapDetail";
 
 export const MapMarker = () => {
   const [opened, setOpened] = useState(false);
+  const [clicked, setClicked] = useState(false);
+
   const currentPostion = useCurrentPosition();
 
   return (
@@ -20,9 +22,10 @@ export const MapMarker = () => {
         }}
         onClick={() => {
           setOpened(!opened);
+          setClicked(true);
         }}
       />
-      {opened && <MapDetail setOpened={setOpened} />}
+      <MapDetail setOpened={setOpened} opened={opened} clicked={clicked} />
     </>
   );
 };

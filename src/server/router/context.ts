@@ -5,7 +5,6 @@ import { NextApiRequest, NextApiResponse } from "next";
 import PocketBase from "pocketbase"
 import { client } from "../../utils/pocketbase"
 
-
 /**
  * Replace this with an object if you want to pass things to createContextInner
  */

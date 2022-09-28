@@ -1,27 +1,18 @@
 import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback } from "react";
 import { env } from "../../env/client.mjs";
-import getCurrentPosition from "../../utils/getCurrentPosition";
 import removeElementsByQuery from "../../utils/removeElementsByQuery";
 import mapStyle from "../../assets/json/map-style.json";
 import { MapMarker } from "./MapMarker";
+import { useCurrentPosition } from "../../hooks/useCurrentPosition";
 
 export const Map: React.FC = () => {
-  const [center, setCenter] = useState<{ lat: number; lng: number }>({
-    lat: 0,
-    lng: 0,
-  });
+  const center = useCurrentPosition();
 
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: env.NEXT_PUBLIC_GOOGLE_API_KEY,
   });
-
-  useEffect(() => {
-    getCurrentPosition().then(({ lat, lng }) => {
-      setCenter({ lat, lng });
-    });
-  }, []);
 
   const onLoad = useCallback(
     (map: google.maps.Map) => {

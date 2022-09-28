@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useEffect, useState } from "react";
+import { trpc } from "../../utils/trpc";
 
 import { HomePageMarker } from "./HomePageMarker/HomePageMarker";
 
