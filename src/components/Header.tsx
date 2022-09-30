@@ -29,27 +29,33 @@ const Header: React.FC = () => {
         </Link>
       </div>
       <SearchBar />
-      <div className="flex justify-between items-center gap-4">
-        {session ? (
-          <>
-            <NotificationMenu />
-            <UserMenu />
-          </>
-        ) : (
-          <>
-            <Link href="/sign-in">
-              <button className="font-semibold p-3 hover:bg-zinc-200 rounded-full active:bg-zinc-300 transition-all focus-within:border-zinc-300 border-2 border-transparent">
-                Sign In
-              </button>
-            </Link>
-            <Link href="/register">
-              <button className="bg-blue-600 font-semibold text-white p-3 rounded-full hover:bg-blue-700 active:bg-blue-800 transition-all border-2 focus-within:border-blue-500">
-                Register
-              </button>
-            </Link>
-          </>
-        )}
-      </div>
+      {!session.loading && (
+        <>
+          {session.data ? (
+            <>
+              <div className="flex justify-between items-center gap-4">
+                <NotificationMenu />
+                <UserMenu />
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="flex justify-between items-center gap-3">
+                <Link href="/sign-in">
+                  <button className="font-semibold p-3 hover:bg-zinc-200 rounded-full active:bg-zinc-300 transition-all focus-within:border-zinc-300 border-2 border-transparent whitespace-nowrap">
+                    Sign In
+                  </button>
+                </Link>
+                <Link href="/register">
+                  <button className="bg-blue-600 font-semibold text-white p-3 rounded-full hover:bg-blue-700 active:bg-blue-800 transition-all border-2 focus-within:border-blue-500">
+                    Register
+                  </button>
+                </Link>
+              </div>
+            </>
+          )}
+        </>
+      )}
     </header>
   );
 };

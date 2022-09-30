@@ -1,10 +1,13 @@
 /* eslint-disable @next/next/no-img-element */
 import React from "react";
+import { useSession } from "../../hooks/useSession";
 
 export const UserMenuIcon: React.FC<{
   opened: boolean;
   onClick: React.MouseEventHandler<HTMLDivElement>;
 }> = ({ onClick }) => {
+  const session = useSession();
+
   return (
     <div
       className="overflow-hidden cursor-pointer"
@@ -17,7 +20,11 @@ export const UserMenuIcon: React.FC<{
       }}
     >
       <img
-        src="http://simpleicon.com/wp-content/uploads/talk_1.svg"
+        src={
+          session.data?.avatarUrl === ""
+            ? "/images/undraw_pic_profile.svg"
+            : session.data?.avatarUrl
+        }
         alt="user icon"
         className="w-full h-full rounded-full kokotko"
       />

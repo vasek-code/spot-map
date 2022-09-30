@@ -12,12 +12,12 @@ import { BsFacebook } from "react-icons/bs";
 import { SignInButton } from "../components/SignIn/SignInButton";
 import { SignInInput } from "../components/SignIn/SignInInput";
 
-const SignInPage: NextPage = () => {
+const RegisterPage: NextPage = () => {
   const authMethods = trpc.useQuery(["user.getAuthMethods"]);
   const [cookies, setCookie, removeCookie] = useCookies(["provider"]);
   const router = useRouter();
 
-  const createUserMutation = trpc.useMutation(["user.signIn"], {
+  const createUserMutation = trpc.useMutation(["user.register"], {
     onSuccess: () => {
       router.push("/");
     },
@@ -25,13 +25,14 @@ const SignInPage: NextPage = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [passwordConf, setPasswordConf] = useState("");
 
   return (
     <MainContainer>
       <div className="w-full h-full px-5 flex bg-zinc-50 flex-col lg:flex-row">
         <div className="w-full h-full flex  justify-center items-center">
           <div className="max-w-xl w-full flex flex-col justify-center gap-3">
-            <h1 className="font-bold text-4xl mb-5">Sign In with email</h1>
+            <h1 className="font-bold text-4xl mb-5">Register with email</h1>
             <SignInInput
               value={email}
               placeholder="Email"
@@ -48,11 +49,20 @@ const SignInPage: NextPage = () => {
                 setPassword(e.target.value);
               }}
             />
+            <SignInInput
+              value={passwordConf}
+              placeholder="Password confirm"
+              type="password"
+              onChange={(e) => {
+                setPasswordConf(e.target.value);
+              }}
+            />
             <button
               onClick={async () => {
                 const token = await createUserMutation.mutateAsync({
                   email,
                   password,
+                  passwordConfirm: passwordConf,
                 });
 
                 console.log(token);
@@ -116,7 +126,7 @@ const SignInPage: NextPage = () => {
         </div>
         <div className="flex justify-center items-center w-full p-10">
           <img
-            src="/images/undraw-map.svg"
+            src="/images/undraw_right_direction.svg"
             alt="map image"
             className="w-96"
             draggable={false}
@@ -127,4 +137,4 @@ const SignInPage: NextPage = () => {
   );
 };
 
-export default SignInPage;
+export default RegisterPage;

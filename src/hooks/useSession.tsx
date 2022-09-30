@@ -1,12 +1,29 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { trpc } from "../utils/trpc";
 
 export const useSession = () => {
-  const getUser = trpc.useQuery(["user.auth"]);
+  const getUser = trpc.useQuery(["user.getSession"], {
+    refetchOnMount: false,
+    refetchOnReconnect: false,
+    refetchOnWindowFocus: false,
+  });
+  const removeCookie = trpc.useMutation(["user.removeToken"]);
+  const router = useRouter();
 
   useEffect(() => {
-    console.log(getUser.data);
-  }, [getUser]);
+    getUser.refetch().then();
+  }, [router.pathname]);
 
-  return null;
+  return {
+    data: getUser.data,
+    signOut: async () => {
+      console.log("remove");
+      await removeCookie.mutateAsync();
+      await getUser.refetch();
+    },
+    loading: getUser.isLoading,
+  };
 };
