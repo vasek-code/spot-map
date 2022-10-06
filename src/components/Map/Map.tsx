@@ -1,17 +1,23 @@
-import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
-import React, { useCallback } from "react";
-import { env } from "../../env/client.mjs";
+import { GoogleMap, useLoadScript } from "@react-google-maps/api";
+import React, { useCallback, useContext } from "react";
 import removeElementsByQuery from "../../utils/removeElementsByQuery";
 import mapStyle from "../../assets/json/map-style.json";
 import { MapMarker } from "./MapMarker";
 import { useCurrentPosition } from "../../hooks/useCurrentPosition";
+import { env } from "../../env/client.mjs";
+import { trpc } from "../../utils/trpc";
+import { markersContext } from "../../contexts/MarkersContext";
 
 export const Map: React.FC = () => {
+  const markers = useContext(markersContext);
+
   const center = useCurrentPosition();
 
-  const { isLoaded } = useJsApiLoader({
+  const createMarkerMutation = trpc.useMutation(["marker.create"]);
+
+  const { isLoaded } = useLoadScript({
     id: "google-map-script",
-    googleMapsApiKey: env.NEXT_PUBLIC_GOOGLE_API_KEY,
+    googleMapsApiKey: env.NEXT_PUBLIC_GOOGLE_API_KEY as string,
   });
 
   const onLoad = useCallback(
@@ -49,8 +55,18 @@ export const Map: React.FC = () => {
       onLoad={onLoad}
       onUnmount={onUnmount}
       options={{ styles: mapStyle }}
+      onRightClick={async (e) => {
+        await createMarkerMutation.mutateAsync({
+          lat: e.latLng?.lat() as number,
+          lng: e.latLng?.lng() as number,
+        });
+
+        markers?.refetch();
+      }}
     >
-      <MapMarker />
+      {markers?.markers?.map((marker) => {
+        return <MapMarker key={marker.id} lat={marker.lat} lng={marker.lng} />;
+      })}
     </GoogleMap>
   ) : (
     <></>

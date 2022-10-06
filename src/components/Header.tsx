@@ -21,6 +21,7 @@ const Header: React.FC = () => {
             src="/images/logo.svg"
             alt="logo"
             className="ml-3 cursor-pointer"
+            draggable={false}
             style={{
               width: "7rem",
               minWidth: "7rem",

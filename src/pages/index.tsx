@@ -2,12 +2,8 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import { HomePageBackground } from "../components/HomePage/HomePageBackground";
-import { useSession } from "../hooks/useSession";
-import { trpc } from "../utils/trpc";
 
 const HomePage: NextPage = () => {
-  const session = useSession();
-
   return (
     <>
       <Head>
@@ -22,7 +18,7 @@ const HomePage: NextPage = () => {
             className="h-36"
             draggable={false}
           />
-          <h2 className="text-xl text-center font-semibold">
+          <h2 className="text-xl text-center font-semibold select-text">
             Find best spots for your next film scenes or photos.
           </h2>
         </div>

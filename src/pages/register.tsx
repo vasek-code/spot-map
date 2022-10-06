@@ -64,8 +64,6 @@ const RegisterPage: NextPage = () => {
                   password,
                   passwordConfirm: passwordConf,
                 });
-
-                console.log(token);
               }}
               className="w-full h-12 bg-zinc-100 rounded-lg hover:bg-zinc-200 font-semibold transition-all"
             >

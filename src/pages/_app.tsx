@@ -5,14 +5,17 @@ import { withTRPC } from "@trpc/next";
 import type { AppType } from "next/dist/shared/lib/utils";
 import superjson from "superjson";
 import Header from "../components/Header";
+import { MarkersProvider } from "../contexts/MarkersContext";
 import type { AppRouter } from "../server/router";
 import "../styles/globals.css";
 
 const MyApp: AppType = ({ Component, pageProps }) => {
   return (
     <>
-      <Header />
-      <Component {...pageProps} />
+      <MarkersProvider>
+        <Header />
+        <Component {...pageProps} />
+      </MarkersProvider>
     </>
   );
 };

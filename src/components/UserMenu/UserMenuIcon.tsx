@@ -21,12 +21,12 @@ export const UserMenuIcon: React.FC<{
     >
       <img
         src={
-          session.data?.avatarUrl === ""
+          !session.data?.avatarUrl
             ? "/images/undraw_pic_profile.svg"
             : session.data?.avatarUrl
         }
         alt="user icon"
-        className="w-full h-full rounded-full kokotko"
+        className="w-full h-full rounded-full"
       />
     </div>
   );

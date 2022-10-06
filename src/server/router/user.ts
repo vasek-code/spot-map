@@ -70,8 +70,6 @@ export const userRouter = createRouter()
   })
   .mutation("removeToken", {
     resolve: async ({ ctx }) => {
-      console.log("removed cookie");
-
       ctx.res.setHeader(
         "set-cookie",
         "pb_auth=; path=/;"
