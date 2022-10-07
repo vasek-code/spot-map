@@ -20,7 +20,6 @@ export const useSession = () => {
   return {
     data: getUser.data,
     signOut: async () => {
-      console.log("remove");
       await removeCookie.mutateAsync();
       await getUser.refetch();
     },

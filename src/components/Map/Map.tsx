@@ -1,19 +1,17 @@
 import { GoogleMap, useLoadScript } from "@react-google-maps/api";
-import React, { useCallback, useContext } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import removeElementsByQuery from "../../utils/removeElementsByQuery";
 import mapStyle from "../../assets/json/map-style.json";
 import { MapMarker } from "./MapMarker";
 import { useCurrentPosition } from "../../hooks/useCurrentPosition";
 import { env } from "../../env/client.mjs";
-import { trpc } from "../../utils/trpc";
 import { markersContext } from "../../contexts/MarkersContext";
+import MapMarkerForm from "./MapMarkerForm/MapMarkerForm";
 
 export const Map: React.FC = () => {
   const markers = useContext(markersContext);
 
   const center = useCurrentPosition();
-
-  const createMarkerMutation = trpc.useMutation(["marker.create"]);
 
   const { isLoaded } = useLoadScript({
     id: "google-map-script",
@@ -44,6 +42,17 @@ export const Map: React.FC = () => {
     return;
   }, []);
 
+  const [opened, setOpened] = useState(false);
+  const [clicked, setClicked] = useState(false);
+
+  useEffect(() => {
+    if (!opened) {
+      setTimeout(() => {
+        setClicked(false);
+      }, 500);
+    }
+  }, [opened]);
+
   return isLoaded ? (
     <GoogleMap
       mapContainerStyle={{
@@ -55,15 +64,19 @@ export const Map: React.FC = () => {
       onLoad={onLoad}
       onUnmount={onUnmount}
       options={{ styles: mapStyle }}
-      onRightClick={async (e) => {
-        await createMarkerMutation.mutateAsync({
-          lat: e.latLng?.lat() as number,
-          lng: e.latLng?.lng() as number,
-        });
-
-        markers?.refetch();
+      onRightClick={() => {
+        setOpened(true);
+        setClicked(true);
       }}
     >
+      {clicked && (
+        <MapMarkerForm
+          setOpened={setOpened}
+          opened={opened}
+          clicked={clicked}
+        />
+      )}
+
       {markers?.markers?.map((marker) => {
         return <MapMarker key={marker.id} lat={marker.lat} lng={marker.lng} />;
       })}

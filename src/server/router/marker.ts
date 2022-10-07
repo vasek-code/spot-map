@@ -14,6 +14,8 @@ export const markerRouter = createRouter()
     input: z.object({
       lat: z.number().min(-90).max(90),
       lng: z.number().min(-180).max(180),
+      hashtags: z.array(z.string().min(3).max(20)).max(12).min(1),
+      title: z.string().min(3)
     }),
     resolve: async ({ ctx, input }) => {
       console.log(input);
