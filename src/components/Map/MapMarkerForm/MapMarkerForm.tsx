@@ -1,24 +1,25 @@
-/* eslint-disable react/no-unknown-property */
-import React, { useState } from "react";
+/* eslint-disable @next/next/no-img-element */
+import React from "react";
 import ReactDOM from "react-dom";
 import { GrFormClose } from "react-icons/gr";
 import styles from "../MapDetail/MapDetail.module.scss";
-import { MapMarkerHashtagInput } from "./MapMarkerHashtagInput";
 import MapMarkerAddButton from "./MapMarkerAddButton";
 import MapMarkerFormTitle from "./MapMarkerFormTitle";
+import MapMarkerHashtagInputBody from "./MapMarkerHashtagInputBody";
+import { MapMarkerDescriptionArea } from "./MapMarkerDescriptionArea";
+import MapMarkerFormSubmit from "./MapMarkerFormSubmit";
+import MapMarkerImageInput from "./MapMarkerImageInput";
 
 const MarkerCreateForm: React.FC<{
   setOpened: React.Dispatch<React.SetStateAction<boolean>>;
   opened: boolean;
   clicked: boolean;
 }> = ({ setOpened, opened, clicked }) => {
-  const [hashtags, setHashtags] = useState<number[]>([1]);
-
   if (!clicked) return null;
 
   return ReactDOM.createPortal(
     <>
-      <style jsx global>
+      <style>
         {`
           /* width */
           ::-webkit-scrollbar {
@@ -68,45 +69,19 @@ const MarkerCreateForm: React.FC<{
               <GrFormClose size={30} />
             </button>
             <div className="w-full flex gap-10 px-9">
-              <div
-                className="w-full rounded-2xl border-2 border-zinc-300"
-                style={{
-                  minHeight: "600px",
-                  maxHeight: "600px",
-                }}
-              ></div>
+              <MapMarkerImageInput />
               <div className="w-full flex flex-col gap-5">
                 <MapMarkerFormTitle />
-                <div className="w-full flex flex-col gap-3">
-                  <h2 className="text-xl font-semibold ">Description</h2>
-                  <textarea
-                    style={{
-                      minHeight: "150px",
-                    }}
-                    className="w-full border-2 border-zinc-300 rounded-xl p-3 outline-none font-semibold focus-visible:border-zinc-400 transition-all pr-12"
-                  ></textarea>
-                </div>
+                <MapMarkerDescriptionArea />
                 <div className="w-full flex flex-col gap-3">
                   <h2 className="text-xl font-semibold ">Hashtags</h2>
                   <div className="grid grid-cols-1 lg:grid-cols-2 w-full gap-3">
-                    {hashtags.map((numberOfHashtags, index) => (
-                      <MapMarkerHashtagInput
-                        key={numberOfHashtags}
-                        index={index}
-                        hashtags={hashtags}
-                        setHashtags={setHashtags}
-                      />
-                    ))}
-                    <MapMarkerAddButton
-                      setHashtags={setHashtags}
-                      hashtags={hashtags}
-                    />
+                    <MapMarkerHashtagInputBody />
+                    <MapMarkerAddButton />
                   </div>
                 </div>
 
-                <button className="w-40 rounded-full ml-auto bg-zinc-200 py-3 text-lg hover:bg-zinc-300 active:bg-zinc-400 transition-all font-semibold">
-                  Save
-                </button>
+                <MapMarkerFormSubmit />
               </div>
             </div>
           </div>

@@ -7,9 +7,12 @@ import { useCurrentPosition } from "../../hooks/useCurrentPosition";
 import { env } from "../../env/client.mjs";
 import { markersContext } from "../../contexts/MarkersContext";
 import MapMarkerForm from "./MapMarkerForm/MapMarkerForm";
+import { MarkerCreateProvider } from "../../contexts/MarkerFormContext";
 
 export const Map: React.FC = () => {
   const markers = useContext(markersContext);
+  const [lat, setLat] = useState(0);
+  const [lng, setLng] = useState(0);
 
   const center = useCurrentPosition();
 
@@ -45,6 +48,10 @@ export const Map: React.FC = () => {
   const [opened, setOpened] = useState(false);
   const [clicked, setClicked] = useState(false);
 
+  const closeForm = useCallback(() => {
+    setOpened(false);
+  }, []);
+
   useEffect(() => {
     if (!opened) {
       setTimeout(() => {
@@ -54,33 +61,39 @@ export const Map: React.FC = () => {
   }, [opened]);
 
   return isLoaded ? (
-    <GoogleMap
-      mapContainerStyle={{
-        width: "100%",
-        height: "100vh",
-        position: "absolute",
-      }}
-      center={center}
-      onLoad={onLoad}
-      onUnmount={onUnmount}
-      options={{ styles: mapStyle }}
-      onRightClick={() => {
-        setOpened(true);
-        setClicked(true);
-      }}
-    >
-      {clicked && (
-        <MapMarkerForm
-          setOpened={setOpened}
-          opened={opened}
-          clicked={clicked}
-        />
-      )}
+    <MarkerCreateProvider lat={lat} lng={lng} closeForm={closeForm}>
+      <GoogleMap
+        mapContainerStyle={{
+          width: "100%",
+          height: "100vh",
+          position: "absolute",
+        }}
+        center={center}
+        onLoad={onLoad}
+        onUnmount={onUnmount}
+        options={{ styles: mapStyle }}
+        onRightClick={(e) => {
+          setLat(e.latLng?.lat() as number);
+          setLng(e.latLng?.lng() as number);
+          setOpened(true);
+          setClicked(true);
+        }}
+      >
+        {clicked && (
+          <MapMarkerForm
+            setOpened={setOpened}
+            opened={opened}
+            clicked={clicked}
+          />
+        )}
 
-      {markers?.markers?.map((marker) => {
-        return <MapMarker key={marker.id} lat={marker.lat} lng={marker.lng} />;
-      })}
-    </GoogleMap>
+        {markers?.markers?.map((marker) => {
+          return (
+            <MapMarker key={marker.id} lat={marker.lat} lng={marker.lng} />
+          );
+        })}
+      </GoogleMap>
+    </MarkerCreateProvider>
   ) : (
     <></>
   );

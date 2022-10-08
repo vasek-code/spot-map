@@ -14,17 +14,15 @@ export const markerRouter = createRouter()
     input: z.object({
       lat: z.number().min(-90).max(90),
       lng: z.number().min(-180).max(180),
-      hashtags: z.array(z.string().min(3).max(20)).max(12).min(1),
-      title: z.string().min(3)
+      hashtags: z.array(z.string().min(1).max(20)).max(12).min(1),
+      title: z.string().min(3),
+      description: z.string().min(20),
+      images: z.string()
     }),
     resolve: async ({ ctx, input }) => {
-      console.log(input);
-
       ctx.client.authStore.loadFromCookie(ctx.req.headers.cookie as string);
 
       const marker = await ctx.client.records.create("markers", { ...input, creator: ctx.client.authStore.model?.id });
-
-      console.log(marker);
 
       return marker;
     },

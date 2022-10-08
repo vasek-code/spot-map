@@ -1,22 +1,34 @@
-import React, { useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useContext } from "react";
 import { GrFormClose } from "react-icons/gr";
+import {
+  MarkerContextType,
+  markerCreateContext,
+} from "../../../contexts/MarkerFormContext";
 
 export const MapMarkerHashtagInput: React.FC<{
-  hashtags: number[];
-  setHashtags: React.Dispatch<React.SetStateAction<number[]>>;
   index: number;
-}> = ({ hashtags, index, setHashtags }) => {
-  const [text, setText] = useState("#");
+  value: string;
+  // eslint-disable-next-line react/display-name
+}> = ({ index, value }) => {
+  const { hashtags, setHashtags } = useContext(
+    markerCreateContext
+  ) as MarkerContextType;
 
   return (
     <div className="flex justify-end w-full h-12 relative">
       <input
         className="w-full h-full border-2 border-zinc-300 rounded-full px-5 outline-none font-semibold focus-visible:border-zinc-400 transition-all pr-12"
         placeholder="#place"
-        value={text}
+        value={value}
         onChange={(e) => {
           if (e.target.value[0] !== "#") return;
-          setText(e.target.value);
+
+          const hashtagsCopy = [...hashtags];
+
+          hashtagsCopy[index] = e.target.value;
+
+          setHashtags(hashtagsCopy);
         }}
       />
       <button

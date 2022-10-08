@@ -1,7 +1,13 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
+import {
+  MarkerContextType,
+  markerCreateContext,
+} from "../../../contexts/MarkerFormContext";
 
 const MapMarkerFormTitle = () => {
-  const [title, setTitle] = useState("");
+  const { title, setTitle } = useContext(
+    markerCreateContext
+  ) as MarkerContextType;
 
   return (
     <div className="w-full flex flex-col gap-3">

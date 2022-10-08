@@ -11,8 +11,6 @@ const RedirectHandler = async (req: NextApiRequest, res: NextApiResponse) => {
     "http://localhost:3000/api/auth/redirect"
   );
 
-  console.log(user)
-
   await client.records.update("profiles", user.user.profile?.id as string, {
     avatarUrl: user.meta.avatarUrl,
     name: user.meta.name,
