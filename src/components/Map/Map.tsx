@@ -88,9 +88,7 @@ export const Map: React.FC = () => {
         )}
 
         {markers?.markers?.map((marker) => {
-          return (
-            <MapMarker key={marker.id} lat={marker.lat} lng={marker.lng} />
-          );
+          return <MapMarker key={marker.id} marker={marker} />;
         })}
       </GoogleMap>
     </MarkerCreateProvider>

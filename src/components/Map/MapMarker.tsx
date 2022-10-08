@@ -1,11 +1,11 @@
 import { Marker } from "@react-google-maps/api";
 import React, { useEffect, useState } from "react";
+import { MarkerRecordType } from "../../types/MarkerRecordType";
 import { MapDetail } from "./MapDetail/MapDetail";
 
 export const MapMarker: React.FC<{
-  lat: number;
-  lng: number;
-}> = ({ lat, lng }) => {
+  marker: MarkerRecordType;
+}> = ({ marker }) => {
   const [opened, setOpened] = useState(false);
   const [clicked, setClicked] = useState(false);
 
@@ -21,8 +21,8 @@ export const MapMarker: React.FC<{
     <>
       <Marker
         position={{
-          lat,
-          lng,
+          lat: marker.lat,
+          lng: marker.lng,
         }}
         icon={{
           url: "/images/place-marker.svg",
@@ -35,7 +35,12 @@ export const MapMarker: React.FC<{
         }}
       />
       {clicked && (
-        <MapDetail setOpened={setOpened} opened={opened} clicked={clicked} />
+        <MapDetail
+          setOpened={setOpened}
+          opened={opened}
+          clicked={clicked}
+          marker={marker}
+        />
       )}
     </>
   );

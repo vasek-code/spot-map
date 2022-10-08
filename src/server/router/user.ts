@@ -75,4 +75,25 @@ export const userRouter = createRouter()
         "pb_auth=; path=/;"
       );
     },
-  });
+  })
+  .query("getOneById", {
+    input: z.object({
+      id: z.string()
+    }),
+    resolve: async ({ ctx, input }) => {
+
+      await ctx.client.admins.authViaEmail("vasik1234541@gmail.com", "Kokotbananekmuj.OO")
+
+      const user = await ctx.client.users.getOne(input.id);
+
+      const filteredUser = {
+        id: user.id,
+        avatarUrl: user.profile?.avatarUrl as string,
+        name: user.profile?.name as string,
+        email: user.email
+      };
+
+      return filteredUser;
+
+    },
+  })
