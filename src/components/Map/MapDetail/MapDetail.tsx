@@ -7,7 +7,10 @@ import { MarkerRecordType } from "../../../types/MarkerRecordType";
 import { trpc } from "../../../utils/trpc";
 import { BiArrowToLeft, BiArrowToRight } from "react-icons/bi";
 import { getImageUrl } from "../../../utils/getImageUrl";
-import { AiOutlineStar, AiFillStar } from "react-icons/ai";
+import { AiOutlineStar } from "react-icons/ai";
+import { MapDetailComment } from "./MapDetailComment";
+import Link from "next/link";
+import MapDetailCommentForm from "./MapDetailCommentForm";
 
 export const MapDetail: React.FC<{
   setOpened: React.Dispatch<React.SetStateAction<boolean>>;
@@ -16,7 +19,11 @@ export const MapDetail: React.FC<{
   marker: MarkerRecordType;
 }> = ({ setOpened, opened, clicked, marker }) => {
   const creator = trpc.useQuery(["user.getOneById", { id: marker.creator }]);
-  const images = trpc.useQuery(["image.getAllById", { id: marker.images }]);
+  const images = trpc.useQuery(["image.getOneById", { id: marker.images }]);
+  const comments = trpc.useQuery([
+    "comment.getAllPerMarkerId",
+    { markerId: marker.id },
+  ]);
 
   const [currentImage, setCurrentImage] = useState(0);
 
@@ -29,22 +36,27 @@ export const MapDetail: React.FC<{
   return ReactDOM.createPortal(
     <>
       <MapDetailBody opened={opened}>
-        <div className="w-full h-full flex p-3 flex-col">
+        <div className="w-full h-full flex p-3 flex-col overflow-y-scroll">
           <button
             onClick={() => {
               setOpened(false);
             }}
-            className="rounded-full w-11 h-11 hover:bg-zinc-100 active:bg-zinc-200 transition-all ml-auto flex items-center justify-center"
+            className="rounded-full shrink-0 w-11 h-11 hover:bg-zinc-100 active:bg-zinc-200 transition-all ml-auto flex items-center justify-center"
           >
             <GrFormClose size={30} />
           </button>
-          <div className="w-full h-full flex px-10 flex-col">
-            <div className="ml-auto mb-5 flex items-center gap-3">
-              <h3 className="font-semibold text-lg">
-                {creator.data?.name === ""
-                  ? creator.data.email.split("@")[0]
-                  : creator.data?.name}
-              </h3>
+          <div className="w-full flex px-10 flex-col">
+            <div className="w-full mb-5 flex justify-between mx-7 items-center border-b-2 py-2">
+              <Link href={`/users/${creator.data?.id}`}>
+                <a className="font-semibold text-2xl cursor-pointer">
+                  <span className="text-zinc-500 font-light text-xl cursor-default">
+                    Creator:{" "}
+                  </span>
+                  {creator.data?.name === ""
+                    ? creator.data.email.split("@")[0]
+                    : creator.data?.name}
+                </a>
+              </Link>
               <img
                 src={
                   creator.data?.avatarUrl === ""
@@ -55,7 +67,7 @@ export const MapDetail: React.FC<{
                 alt="profile img"
               />
             </div>
-            <div className="w-full h-full flex pr-5">
+            <div className="w-full flex pr-5">
               <div className="w-full h-full flex">
                 <div className="w-full flex mb-auto">
                   <div
@@ -95,7 +107,12 @@ export const MapDetail: React.FC<{
                     >
                       <button
                         onClick={() => {
-                          if (currentImage === 0) return;
+                          if (currentImage === 0) {
+                            setCurrentImage(
+                              (images.data?.images.length as number) - 1
+                            );
+                            return;
+                          }
 
                           setCurrentImage((prevState) => prevState - 1);
                         }}
@@ -108,8 +125,10 @@ export const MapDetail: React.FC<{
                           if (
                             currentImage ===
                             (images.data?.images.length as number) - 1
-                          )
+                          ) {
+                            setCurrentImage(0);
                             return;
+                          }
 
                           setCurrentImage((prevState) => prevState + 1);
                         }}
@@ -121,7 +140,7 @@ export const MapDetail: React.FC<{
                   </div>
                 </div>
               </div>
-              <div className="w-full flex flex-col px-7 pb-7">
+              <div className="w-full h-full flex flex-col px-7 pb-7">
                 <div className="w-full flex flex-col gap-5 rounded-lg border-2 bg-zinc-100 shadow-lg border-zinc-300 p-8">
                   <h2 className="font-bold text-4xl">{marker.title}</h2>
                   <h3 className="font-semibold text-lg">
@@ -154,6 +173,15 @@ export const MapDetail: React.FC<{
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
+          <div className="w-full flex px-20 flex-col gap-10 mt-10 pb-5">
+            <h2 className="font-semibold text-3xl">Comments</h2>
+            <div className="w-full h-full grid grid-cols-2 gap-5">
+              <MapDetailCommentForm markerId={marker.id} />
+              {comments.data?.map((comment) => {
+                return <MapDetailComment key={comment.id} comment={comment} />;
+              })}
             </div>
           </div>
         </div>

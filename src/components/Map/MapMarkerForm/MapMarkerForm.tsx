@@ -2,7 +2,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { GrFormClose } from "react-icons/gr";
-import styles from "../MapDetail/MapDetail.module.scss";
+import styles from "./MapMarkerForm.module.scss";
 import MapMarkerAddButton from "./MapMarkerAddButton";
 import MapMarkerFormTitle from "./MapMarkerFormTitle";
 import MapMarkerHashtagInputBody from "./MapMarkerHashtagInputBody";

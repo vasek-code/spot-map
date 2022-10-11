@@ -6,10 +6,10 @@
 
 @keyframes open {
   from {
-    transform: translateY(100%);
+    transform: scale(0%);
   }
   to {
-    transform: translateY(0%);
+    transform: scale(100%);
   }
 }
 
@@ -21,9 +21,9 @@
 
 @keyframes close {
   from {
-    transform: translateY(0%);
+    transform: scale(100%);
   }
   to {
-    transform: translateY(100%);
+    transform: scale(0%);
   }
 }

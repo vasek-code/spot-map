@@ -3,7 +3,7 @@ import { ImageRecordType } from "../../types/ImageRecordType";
 import { createRouter } from "./context";
 
 export const imageRouter = createRouter()
-  .query("getAllById", {
+  .query("getOneById", {
     input: z.object({
       id: z.string()
     }),

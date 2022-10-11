@@ -1,9 +1,9 @@
 # **TODO**
 
-1. Create marker creation form
+<!-- 1. Create marker creation form
 
    1. Photos
-   1. Hashtags
+   1. Hashtags -->
 
 1. Places page with random places near to you
 

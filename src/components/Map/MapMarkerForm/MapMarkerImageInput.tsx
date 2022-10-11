@@ -59,11 +59,12 @@ const MapMarkerImageInput = () => {
           }}
         />
       ) : (
-        <div className="overflow-hidden w-full h-full flex items-center">
+        <div className="overflow-hidden w-full h-full items-center justify-center grid">
           <div
-            className="flex justify-center items-center absolute"
+            className="flex justify-center items-center w-full h-full"
             style={{
               width: "500px",
+              gridArea: "1 / 1 / -1 / -1",
             }}
           >
             <img
@@ -78,10 +79,18 @@ const MapMarkerImageInput = () => {
           {imagesUrl.length === 1 ? (
             <></>
           ) : (
-            <div className="w-full flex justify-between  relative px-2">
+            <div
+              className="w-full flex justify-between px-2"
+              style={{
+                gridArea: "1 / 1 / -1 / -1",
+              }}
+            >
               <button
                 onClick={() => {
-                  if (currentImage === 0) return;
+                  if (currentImage === 0) {
+                    setCurrentImage(imagesUrl.length - 1);
+                    return;
+                  }
 
                   setCurrentImage((prevState) => prevState - 1);
                 }}
@@ -91,7 +100,10 @@ const MapMarkerImageInput = () => {
               </button>
               <button
                 onClick={() => {
-                  if (currentImage === imagesUrl.length - 1) return;
+                  if (currentImage === imagesUrl.length - 1) {
+                    setCurrentImage(0);
+                    return;
+                  }
 
                   setCurrentImage((prevState) => prevState + 1);
                 }}
