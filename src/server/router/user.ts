@@ -1,5 +1,8 @@
 import { createRouter } from "./context";
 import { z } from "zod";
+import { MarkerRecordType } from "../../types/MarkerRecordType";
+import { User } from "pocketbase";
+import { CommentRecordType } from "../../types/CommentRecordType";
 
 export const userRouter = createRouter()
   .mutation("register", {
@@ -59,7 +62,7 @@ export const userRouter = createRouter()
           id: user.id,
           avatarUrl: user.profile?.avatarUrl as string,
           name: user.profile?.name as string,
-          email: user.email
+          email: user.email,
         };
 
         return filteredUser;
@@ -70,19 +73,18 @@ export const userRouter = createRouter()
   })
   .mutation("removeToken", {
     resolve: async ({ ctx }) => {
-      ctx.res.setHeader(
-        "set-cookie",
-        "pb_auth=; path=/;"
-      );
+      ctx.res.setHeader("set-cookie", "pb_auth=; path=/;");
     },
   })
   .query("getOneById", {
     input: z.object({
-      id: z.string()
+      id: z.string(),
     }),
     resolve: async ({ ctx, input }) => {
-
-      await ctx.client.admins.authViaEmail("vasik1234541@gmail.com", "Kokotbananekmuj.OO")
+      await ctx.client.admins.authViaEmail(
+        "vasik1234541@gmail.com",
+        "Kokotbananekmuj.OO"
+      );
 
       const user = await ctx.client.users.getOne(input.id);
 
@@ -90,10 +92,14 @@ export const userRouter = createRouter()
         id: user.id,
         avatarUrl: user.profile?.avatarUrl as string,
         name: user.profile?.name as string,
-        email: user.email
+        email: user.email,
       };
 
       return filteredUser;
-
     },
   })
+  .query("getBestFinders", {
+    resolve: async ({ ctx }) => {
+      return null
+    },
+  });

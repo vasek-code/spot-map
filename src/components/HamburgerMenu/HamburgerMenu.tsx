@@ -23,7 +23,11 @@ export const HamburgerMenu = () => {
         clicked={clicked}
         opened={opened}
       />
-      <HamburgerMenuBody opened={opened} clicked={clicked}>
+      <HamburgerMenuBody
+        opened={opened}
+        clicked={clicked}
+        setOpened={setOpened}
+      >
         <HamburgerMenuButton Icon={BiHome} link="/">
           Home
         </HamburgerMenuButton>
@@ -33,7 +37,7 @@ export const HamburgerMenu = () => {
         <HamburgerMenuButton Icon={HiOutlineLocationMarker} link="/map">
           Places
         </HamburgerMenuButton>
-        <HamburgerMenuButton Icon={RiUserStarLine} link="/map">
+        <HamburgerMenuButton Icon={RiUserStarLine} link="/map/best-finders">
           Best finders
         </HamburgerMenuButton>
       </HamburgerMenuBody>

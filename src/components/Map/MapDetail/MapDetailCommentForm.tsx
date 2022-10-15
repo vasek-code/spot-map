@@ -5,7 +5,8 @@ import { MapDetailCommentStars } from "./MapDetailCommentStars";
 
 const MapDetailCommentForm: React.FC<{
   markerId: string;
-}> = ({ markerId }) => {
+  refetch: () => void;
+}> = ({ markerId, refetch }) => {
   const commentCreateMutation = trpc.useMutation(["comment.create"]);
 
   const [text, setText] = useState("");
@@ -34,6 +35,8 @@ const MapDetailCommentForm: React.FC<{
                 markerId,
                 stars,
               });
+
+              refetch();
             }}
             className="bg-blue-500 text-white px-4 py-2 rounded-full border-2 border-zinc-300 hover:bg-blue-600 transition-all"
           >

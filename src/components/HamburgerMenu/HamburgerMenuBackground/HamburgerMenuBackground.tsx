@@ -5,7 +5,8 @@ import styles from "./HamburgerMenuBackground.module.scss";
 export const HamburgerMenuBackground: React.FC<{
   clicked: boolean;
   opened: boolean;
-}> = ({ clicked, opened }) => {
+  setOpened: React.Dispatch<React.SetStateAction<boolean>>;
+}> = ({ clicked, opened, setOpened }) => {
   const [closed, setClosed] = useState(false);
 
   useEffect(() => {
@@ -33,6 +34,9 @@ export const HamburgerMenuBackground: React.FC<{
       style={{
         left: "0px",
         height: "100vh",
+      }}
+      onClick={() => {
+        setOpened(false);
       }}
     />,
     document.getElementById("menu") as Element

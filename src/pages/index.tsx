@@ -11,7 +11,7 @@ const HomePage: NextPage = () => {
       </Head>
       <main className="w-full h-screen">
         <HomePageBackground />
-        <div className="flex w-full h-full justify-center flex-col absolute ">
+        <div className="flex w-full h-full justify-center flex-col absolute">
           <img
             src="/images/logo.svg"
             alt="logo"

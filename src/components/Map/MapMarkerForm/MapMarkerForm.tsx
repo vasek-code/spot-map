@@ -9,6 +9,7 @@ import MapMarkerHashtagInputBody from "./MapMarkerHashtagInputBody";
 import { MapMarkerDescriptionArea } from "./MapMarkerDescriptionArea";
 import MapMarkerFormSubmit from "./MapMarkerFormSubmit";
 import MapMarkerImageInput from "./MapMarkerImageInput";
+import CloseMenuButton from "../../CloseMenuButton";
 
 const MarkerCreateForm: React.FC<{
   setOpened: React.Dispatch<React.SetStateAction<boolean>>;
@@ -60,15 +61,8 @@ const MarkerCreateForm: React.FC<{
               minHeight: "700px",
             }}
           >
-            <button
-              onClick={() => {
-                setOpened(false);
-              }}
-              className="rounded-full w-11 h-11 hover:bg-zinc-100 active:bg-zinc-200 transition-all ml-auto flex items-center justify-center"
-            >
-              <GrFormClose size={30} />
-            </button>
-            <div className="w-full flex gap-10 px-9">
+            <CloseMenuButton setOpened={setOpened} />
+            <div className="w-full flex gap-10 px-9 pt-10">
               <MapMarkerImageInput />
               <div className="w-full flex flex-col gap-5">
                 <MapMarkerFormTitle />

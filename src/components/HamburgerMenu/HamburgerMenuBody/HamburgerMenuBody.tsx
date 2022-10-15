@@ -8,7 +8,8 @@ export const HamburgerMenuBody: React.FC<{
   opened: boolean;
   clicked: boolean;
   children: React.ReactNode;
-}> = ({ opened, clicked, children }) => {
+  setOpened: React.Dispatch<React.SetStateAction<boolean>>;
+}> = ({ opened, clicked, children, setOpened }) => {
   if (!clicked) return null;
 
   return ReactDOM.createPortal(
@@ -24,7 +25,11 @@ export const HamburgerMenuBody: React.FC<{
         }}
       >
         {children}
-        <HamburgerMenuBackground clicked={clicked} opened={opened} />
+        <HamburgerMenuBackground
+          setOpened={setOpened}
+          clicked={clicked}
+          opened={opened}
+        />
       </div>
     </>,
     document.getElementById("menu") as Element

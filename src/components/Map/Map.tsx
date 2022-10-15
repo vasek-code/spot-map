@@ -1,5 +1,11 @@
 import { GoogleMap, useLoadScript } from "@react-google-maps/api";
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import removeElementsByQuery from "../../utils/removeElementsByQuery";
 import mapStyle from "../../assets/json/map-style.json";
 import { MapMarker } from "./MapMarker";
@@ -8,12 +14,12 @@ import { env } from "../../env/client.mjs";
 import { markersContext } from "../../contexts/MarkersContext";
 import MapMarkerForm from "./MapMarkerForm/MapMarkerForm";
 import { MarkerCreateProvider } from "../../contexts/MarkerFormContext";
+import addStylesUsingQuery from "../../utils/addStylesUsingQuery";
 
 export const Map: React.FC = () => {
   const markers = useContext(markersContext);
   const [lat, setLat] = useState(0);
   const [lng, setLng] = useState(0);
-
   const center = useCurrentPosition();
 
   const { isLoaded } = useLoadScript({
@@ -23,19 +29,21 @@ export const Map: React.FC = () => {
 
   const onLoad = useCallback(
     (map: google.maps.Map) => {
-      const bounds = new window.google.maps.LatLngBounds(center);
-      map.fitBounds(bounds);
-
       setInterval(() => {
         removeElementsByQuery([
           ".gm-control-active",
           ".gm-style-cc",
           "img[alt='Google']",
-          ".gm-style-mtc",
           "div[data-control-height='81']",
           "div[jstcache='82']",
-          ".gmnoprint",
+          ".gm-svpc",
+          "ul[role='menu']",
         ]);
+
+        addStylesUsingQuery(["button[role='menuitemradio']"], {
+          borderRadius: "10px",
+          marginLeft: "6px",
+        });
       }, 10);
     },
     [center]
@@ -68,6 +76,7 @@ export const Map: React.FC = () => {
           height: "100vh",
           position: "absolute",
         }}
+        zoom={9}
         center={center}
         onLoad={onLoad}
         onUnmount={onUnmount}

@@ -13,14 +13,14 @@ const Header: React.FC = () => {
   const session = useSession();
 
   return (
-    <header className="w-full z-20 absolute h-20 bg-zinc-100 border-b-zinc-300 border-b-2 flex items-center p-5 justify-between gap-3">
-      <div className="flex justify-between items-center">
+    <header className="w-full z-20 absolute h-16 md:h-20 md:p-5 md:gap-3 px-2 gap-2 bg-zinc-100 border-b-zinc-300 border-b-2 flex items-center justify-between">
+      <div className="flex justify-between items-center gap-1">
         <HamburgerMenu />
         <Link href="/">
           <img
             src="/images/logo.svg"
             alt="logo"
-            className="ml-3 cursor-pointer"
+            className="cursor-pointer md:ml-3"
             draggable={false}
             style={{
               width: "7rem",
@@ -34,7 +34,7 @@ const Header: React.FC = () => {
         <>
           {session.data ? (
             <>
-              <div className="flex justify-between items-center gap-4">
+              <div className="flex justify-between items-center md:gap-4 gap-2">
                 <NotificationMenu />
                 <UserMenu />
               </div>

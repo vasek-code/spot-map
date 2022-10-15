@@ -11,6 +11,7 @@ import { FcGoogle } from "react-icons/fc";
 import { BsFacebook } from "react-icons/bs";
 import { SignInButton } from "../components/SignIn/SignInButton";
 import { SignInInput } from "../components/SignIn/SignInInput";
+import { env } from "../env/client.mjs";
 
 const SignInPage: NextPage = () => {
   const authMethods = trpc.useQuery(["user.getAuthMethods"]);
@@ -71,13 +72,13 @@ const SignInPage: NextPage = () => {
                         "provider",
                         authMethods.data.authProviders[index],
                         {
-                          domain: "localhost",
+                          domain: "spot-map.ddns.net",
                         }
                       );
 
                       router.push(
                         method.authUrl +
-                          "http://localhost:3000/api/auth/redirect"
+                          `${env.NEXT_PUBLIC_URL}/api/auth/redirect`
                       );
                     }
                   });
@@ -94,13 +95,13 @@ const SignInPage: NextPage = () => {
                         "provider",
                         authMethods.data.authProviders[index],
                         {
-                          domain: "localhost",
+                          domain: "spot-map.ddns.net",
                         }
                       );
 
                       router.push(
                         method.authUrl +
-                          "http://localhost:3000/api/auth/redirect"
+                          `${env.NEXT_PUBLIC_URL}/api/auth/redirect`
                       );
                     }
                   });

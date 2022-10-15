@@ -26,6 +26,7 @@ export const UserMenuIcon: React.FC<{
             : session.data?.avatarUrl
         }
         alt="user icon"
+        draggable={false}
         className="w-full h-full rounded-full"
       />
     </div>

@@ -13,13 +13,11 @@ export const NotificationMenuIcon: React.FC = () => {
         height: "2.75rem",
         width: "2.75rem",
       }}
+      onClick={() => {
+        setEnabled(!enabled);
+      }}
     >
-      <div
-        className="w-7 h-7 flex-col gap-3 flex items-center justify-center"
-        onClick={() => {
-          setEnabled(!enabled);
-        }}
-      >
+      <div className="w-7 h-7 flex-col gap-3 flex items-center justify-center">
         {enabled ? <BiBell size="28px" /> : <BiBellOff size="28px" />}
       </div>
     </div>

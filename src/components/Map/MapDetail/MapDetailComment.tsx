@@ -9,6 +9,8 @@ export const MapDetailComment: React.FC<{
 }> = ({ comment }) => {
   const creator = trpc.useQuery(["user.getOneById", { id: comment.creator }]);
 
+  if (creator.isLoading) return null;
+
   return (
     <div className="w-full h-full border-2 bg-zinc-100 shadow-md rounded-lg p-5 max-w-2xl flex flex-col mx-auto">
       <div className="flex items-start">

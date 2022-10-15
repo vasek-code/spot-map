@@ -31,8 +31,8 @@ export const commentRouter = createRouter()
         "comments",
         undefined,
         { filter: `markerId = "${input.markerId}"` }
-      );
+      ) as never as CommentRecordType[];
 
-      return comments as never as CommentRecordType[];
+      return comments.reverse();
     },
   });
