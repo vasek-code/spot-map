@@ -100,6 +100,70 @@ export const userRouter = createRouter()
   })
   .query("getBestFinders", {
     resolve: async ({ ctx }) => {
-      return null
+      await ctx.client.admins.authViaEmail(
+        "vasik1234541@gmail.com",
+        "Kokotbananekmuj.OO"
+      );
+
+      const mapOfFinders = new Map<
+        string,
+        {
+          id: string;
+          totalStars: number;
+          totalVotes: number;
+        }
+      >();
+
+      const allUsersThatCreatedPlace = await ctx.client.users.getFullList();
+
+      const comments = (await ctx.client.records.getFullList(
+        "comments"
+      )) as never as CommentRecordType[];
+
+      const markers = (await ctx.client.records.getFullList(
+        "markers"
+      )) as never as MarkerRecordType[];
+
+      allUsersThatCreatedPlace.forEach((creator) => {
+        comments.forEach(async (comment) => {
+          const markerFromComment: MarkerRecordType[] = markers.filter(
+            (marker) => marker.id === comment.markerId
+          );
+
+          if (markerFromComment[0]?.creator === creator.id) {
+            const oldMapRecord = mapOfFinders.get(creator.id);
+            if (!oldMapRecord) {
+              mapOfFinders.set(creator.id, {
+                id: creator.id,
+                totalStars: parseInt(comment.stars),
+                totalVotes: 1,
+              });
+            } else {
+              mapOfFinders.set(creator.id, {
+                id: creator.id,
+                totalStars: oldMapRecord.totalStars + parseInt(comment.stars),
+                totalVotes: oldMapRecord.totalVotes + 1,
+              });
+            }
+          }
+        });
+      });
+
+      const finalCreatorsArray = Object.values(
+        Object.fromEntries(mapOfFinders)
+      );
+
+      finalCreatorsArray.sort((a, b) => {
+        const firstAverageRating = a.totalStars / a.totalVotes;
+        const secondAverageRating = b.totalStars / b.totalVotes;
+
+        if (firstAverageRating > secondAverageRating) return -1;
+
+        if (firstAverageRating < secondAverageRating) return 1;
+
+        return 0;
+      });
+
+      return finalCreatorsArray;
     },
   });

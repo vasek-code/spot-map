@@ -15,6 +15,12 @@ const BestFindersPage: NextPage<{
   opened: boolean;
   clicked: boolean;
 }> = ({ clicked, opened, setOpened }) => {
+  const bestFinders = trpc.useQuery(["user.getBestFinders"], {
+    refetchOnMount: false,
+    refetchOnReconnect: false,
+    refetchOnWindowFocus: false,
+  });
+
   return (
     <>
       <style>
@@ -65,16 +71,15 @@ const BestFindersPage: NextPage<{
                 <h3>Total Places</h3>
                 <h3>Best Place</h3>
               </div>
-              <BestFindersFinder />
-              <BestFindersFinder />
-              <BestFindersFinder />
-              <BestFindersFinder />
-              <BestFindersFinder />
-              <BestFindersFinder />
-              <BestFindersFinder />
-              <BestFindersFinder />
-              <BestFindersFinder />
-              <BestFindersFinder />
+              {bestFinders.data?.map((finder) => {
+                return (
+                  <BestFindersFinder
+                    id={finder.id}
+                    totalStars={finder.totalStars}
+                    totalVotes={finder.totalVotes}
+                  />
+                );
+              })}
             </div>
           </div>
         </div>
@@ -84,62 +89,3 @@ const BestFindersPage: NextPage<{
 };
 
 export default BestFindersPage;
-
-export const getServerSideProps: GetServerSideProps = async () => {
-  const client = new Pocketbase("https://spot-map.ddns.net:4090");
-
-  await client.admins.authViaEmail(
-    "vasik1234541@gmail.com",
-    "Kokotbananekmuj.OO"
-  );
-
-  const mapOfFinders = new Map<
-    string,
-    {
-      id: string;
-      totalStars: number;
-      totalVotes: number;
-    }
-  >();
-
-  const allUsersThatCreatedPlace = await client.users.getFullList();
-
-  const comments = (await client.records.getFullList(
-    "comments"
-  )) as never as CommentRecordType[];
-
-  const markers = (await client.records.getFullList(
-    "markers"
-  )) as never as MarkerRecordType[];
-
-  allUsersThatCreatedPlace.forEach((creator) => {
-    comments.forEach(async (comment) => {
-      const markerFromComment: MarkerRecordType[] = markers.filter(
-        (marker) => marker.id === comment.markerId
-      );
-
-      if (markerFromComment[0]?.creator === creator.id) {
-        const oldMapRecord = mapOfFinders.get(creator.id);
-        if (!oldMapRecord) {
-          mapOfFinders.set(creator.id, {
-            id: creator.id,
-            totalStars: parseInt(comment.stars),
-            totalVotes: 1,
-          });
-        } else {
-          mapOfFinders.set(creator.id, {
-            id: creator.id,
-            totalStars: oldMapRecord.totalStars + parseInt(comment.stars),
-            totalVotes: oldMapRecord.totalVotes + 1,
-          });
-        }
-      }
-    });
-  });
-
-  console.log(Object.fromEntries(mapOfFinders), "\n\n");
-
-  return {
-    props: {},
-  };
-};
