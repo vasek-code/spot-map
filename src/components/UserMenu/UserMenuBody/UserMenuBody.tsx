@@ -10,7 +10,7 @@ export const UserMenuBody: React.FC<{
 
   return (
     <div
-      className={`absolute w-52 bg-zinc-50 top-16 right-8 rounded-lg m-1 transition-all shadow-lg border-8 border-zinc-50 ${
+      className={`absolute w-52 bg-zinc-50 top-16 right-1 md:right-8 rounded-lg m-1 transition-all shadow-lg border-8 border-zinc-50 ${
         clicked ? (opened ? styles.opened : styles.closed) : ""
       }`}
     >

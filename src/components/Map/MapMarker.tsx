@@ -1,4 +1,5 @@
 import { Marker } from "@react-google-maps/api";
+import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { MarkerRecordType } from "../../types/MarkerRecordType";
 import { MapDetail } from "./MapDetail/MapDetail";
@@ -6,8 +7,23 @@ import { MapDetail } from "./MapDetail/MapDetail";
 export const MapMarker: React.FC<{
   marker: MarkerRecordType;
 }> = ({ marker }) => {
+  const router = useRouter();
+
   const [opened, setOpened] = useState(false);
   const [clicked, setClicked] = useState(false);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (router.query.markerId === marker.id) {
+        setOpened(true);
+        setClicked(true);
+      }
+    }, 100);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, [router, marker, opened]);
 
   useEffect(() => {
     if (!opened) {
@@ -32,9 +48,10 @@ export const MapMarker: React.FC<{
         onClick={() => {
           setOpened(!opened);
           setClicked(true);
+          router.push(`/map?markerId=${marker.id}`);
         }}
       />
-      {clicked && (
+      {marker && clicked && (
         <MapDetail
           setOpened={setOpened}
           opened={opened}

@@ -46,8 +46,9 @@ const MarkerCreateForm: React.FC<{
           }
         `}
       </style>
+
       <div
-        className={`flex absolute w-full h-full pt-20 z-10 ${
+        className={`flex absolute w-full h-full pt-16 md:pt-20 z-10 ${
           opened ? styles.opened : styles.closed
         }`}
         onContextMenu={(e) => {
@@ -62,8 +63,17 @@ const MarkerCreateForm: React.FC<{
             }}
           >
             <CloseMenuButton setOpened={setOpened} />
-            <div className="w-full flex gap-10 px-9 pt-10">
-              <MapMarkerImageInput />
+            <div className="flex w-full pt-10 px-10 flex-col gap-5">
+              <h2 className="font-semibold text-3xl">Create marker</h2>
+              <div className="w-full border-2"></div>
+            </div>
+            <div className="w-full flex gap-10 px-9 pt-5 md:flex-row flex-col-reverse">
+              <div className="w-full flex flex-col gap-5">
+                <MapMarkerImageInput />
+                <div className="flex md:hidden pb-3">
+                  <MapMarkerFormSubmit />
+                </div>
+              </div>
               <div className="w-full flex flex-col gap-5">
                 <MapMarkerFormTitle />
                 <MapMarkerDescriptionArea />
@@ -74,8 +84,9 @@ const MarkerCreateForm: React.FC<{
                     <MapMarkerAddButton />
                   </div>
                 </div>
-
-                <MapMarkerFormSubmit />
+                <div className="hidden md:flex">
+                  <MapMarkerFormSubmit />
+                </div>
               </div>
             </div>
           </div>

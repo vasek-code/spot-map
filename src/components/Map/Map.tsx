@@ -38,12 +38,8 @@ export const Map: React.FC = () => {
           "div[jstcache='82']",
           ".gm-svpc",
           "ul[role='menu']",
+          ".gmnoprint",
         ]);
-
-        addStylesUsingQuery(["button[role='menuitemradio']"], {
-          borderRadius: "10px",
-          marginLeft: "6px",
-        });
       }, 10);
     },
     [center]
@@ -96,9 +92,11 @@ export const Map: React.FC = () => {
           />
         )}
 
-        {markers?.markers?.map((marker) => {
-          return <MapMarker key={marker.id} marker={marker} />;
-        })}
+        {markers &&
+          markers.markers &&
+          markers.markers.map((marker) => {
+            return <MapMarker key={marker.id} marker={marker} />;
+          })}
       </GoogleMap>
     </MarkerCreateProvider>
   ) : (

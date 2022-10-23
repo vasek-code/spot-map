@@ -111,6 +111,13 @@ export const userRouter = createRouter()
           id: string;
           totalStars: number;
           totalVotes: number;
+          avatarUrl: string;
+          name: string;
+          totalPlaces: number;
+          bestPlace: {
+            id: string,
+            title: string
+          };
         }
       >();
 
@@ -125,24 +132,101 @@ export const userRouter = createRouter()
       )) as never as MarkerRecordType[];
 
       allUsersThatCreatedPlace.forEach((creator) => {
-        comments.forEach(async (comment) => {
-          const markerFromComment: MarkerRecordType[] = markers.filter(
-            (marker) => marker.id === comment.markerId
-          );
+        const places = markers.filter(
+          (marker) => marker.creator === creator.id
+        );
 
-          if (markerFromComment[0]?.creator === creator.id) {
+        const bestPlacesMap = new Map<
+          string,
+          {
+            id: string;
+            title: string;
+            totalStars: number;
+          }
+        >();
+
+        comments.forEach(async (comment) => {
+          const markerFromComment: MarkerRecordType = markers.find(
+            (marker) => marker.id === comment.markerId
+          ) as MarkerRecordType;
+
+          if (markerFromComment.creator === creator.id) {
+            const oldBestPlace = bestPlacesMap.get(markerFromComment.id)
+
+            if (!oldBestPlace) {
+              bestPlacesMap.set(markerFromComment.id as string, {
+                id: markerFromComment.id as string,
+                totalStars: parseInt(comment.stars),
+                title: markerFromComment.title
+              });
+            } else {
+              bestPlacesMap.set(markerFromComment.id as string, {
+                id: markerFromComment.id as string,
+                totalStars: oldBestPlace.totalStars + parseInt(comment.stars),
+                title: markerFromComment.title
+              });
+            }
+
+
+
             const oldMapRecord = mapOfFinders.get(creator.id);
             if (!oldMapRecord) {
               mapOfFinders.set(creator.id, {
                 id: creator.id,
                 totalStars: parseInt(comment.stars),
                 totalVotes: 1,
+                avatarUrl: creator.profile?.avatarUrl as string,
+                name: creator.profile?.name ?? creator.email.split("@")[0],
+                get bestPlace() {
+                  const bestPlaceArray = Object.values(
+                    Object.fromEntries(bestPlacesMap)
+                  );
+
+                  bestPlaceArray.sort((a, b) => {
+                    if (a.totalStars > b.totalStars) {
+                      return -1;
+                    }
+
+                    if (a.totalStars < b.totalStars) {
+                      return 1;
+                    }
+
+                    return 0;
+                  });
+
+                  return { id: bestPlaceArray[0]?.id as string, title: bestPlaceArray[0]?.title as string };
+                },
+                totalPlaces: places.length,
               });
             } else {
               mapOfFinders.set(creator.id, {
                 id: creator.id,
                 totalStars: oldMapRecord.totalStars + parseInt(comment.stars),
                 totalVotes: oldMapRecord.totalVotes + 1,
+                avatarUrl: creator.profile?.avatarUrl as string,
+                name: creator.profile?.name ?? creator.email.split("@")[0],
+                get bestPlace() {
+                  const bestPlaceArray = Object.values(
+                    Object.fromEntries(bestPlacesMap)
+                  );
+
+                  const [bestPlace] = bestPlaceArray.sort((a, b) => {
+                    if (a.totalStars > b.totalStars) {
+                      return -1;
+                    }
+
+                    if (a.totalStars < b.totalStars) {
+                      return 1;
+                    }
+
+                    return 0;
+                  });
+
+                  console.log(bestPlaceArray)
+
+                  return { id: bestPlace?.id as string, title: bestPlace?.title as string }
+                },
+                totalPlaces: places.length,
               });
             }
           }
@@ -162,6 +246,12 @@ export const userRouter = createRouter()
         if (firstAverageRating < secondAverageRating) return 1;
 
         return 0;
+      });
+
+      finalCreatorsArray.forEach((creator, index) => {
+        const arrayCopy = [...finalCreatorsArray];
+
+        arrayCopy[index];
       });
 
       return finalCreatorsArray;

@@ -14,6 +14,7 @@ import MapDetailCommentForm from "./MapDetailCommentForm";
 import CloseMenuButton from "../../CloseMenuButton";
 import { env } from "../../../env/client.mjs";
 import Pocketbase from "pocketbase";
+import { useRouter } from "next/router";
 
 export const MapDetail: React.FC<{
   setOpened: React.Dispatch<React.SetStateAction<boolean>>;
@@ -27,6 +28,7 @@ export const MapDetail: React.FC<{
     "comment.getAllPerMarkerId",
     { markerId: marker.id },
   ]);
+  const router = useRouter();
 
   useEffect(() => {
     const client = new Pocketbase(env.NEXT_PUBLIC_POCKETBASE_URL);
@@ -52,11 +54,16 @@ export const MapDetail: React.FC<{
     <>
       <MapDetailBody opened={opened}>
         <div className="w-full h-full grid p-3 overflow-y-scroll">
-          <CloseMenuButton setOpened={setOpened} />
+          <CloseMenuButton
+            setOpened={setOpened}
+            onClick={() => {
+              router.push("/map");
+            }}
+          />
           <div className="w-full flex flex-col pt-14">
             <div className="w-full flex px-10 flex-col">
               <div className="w-full mb-5 flex justify-between mx-7 items-center border-b-2 py-2">
-                <Link href={`/users/${creator.data?.id}`}>
+                <Link href={`/user/${creator.data?.id}`}>
                   <a className="font-semibold text-2xl cursor-pointer">
                     <span className="text-zinc-500 font-light text-xl cursor-default">
                       Creator:{" "}
@@ -76,8 +83,8 @@ export const MapDetail: React.FC<{
                   alt="profile img"
                 />
               </div>
-              <div className="w-full flex pr-5">
-                <div className="w-full h-full flex">
+              <div className="w-full flex justify-between flex-col-reverse lg:flex-row h-full">
+                <div className="h-full flex">
                   <div className="w-full flex mb-auto">
                     <div
                       className="overflow-hidden w-full h-full items-center justify-center"
@@ -150,10 +157,15 @@ export const MapDetail: React.FC<{
                     </div>
                   </div>
                 </div>
-                <div className="w-full h-full flex flex-col px-7 pb-7">
-                  <div className="w-full flex flex-col gap-5 rounded-lg border-2 bg-zinc-100 shadow-lg border-zinc-300 p-8">
+                <div className="h-full flex flex-col pb-7">
+                  <div
+                    className="w-full flex flex-col gap-5 rounded-lg border-2 bg-zinc-100 shadow-lg border-zinc-300 p-8"
+                    style={{
+                      maxWidth: "550px",
+                    }}
+                  >
                     <h2 className="font-bold text-4xl">{marker.title}</h2>
-                    <h3 className="font-semibold text-lg">
+                    <h3 className="font-semibold text-lg break-words">
                       {marker.description}
                     </h3>
                     <div className="grid w-full grid-cols-2 gap-3">
@@ -187,16 +199,17 @@ export const MapDetail: React.FC<{
             </div>
             <div className="w-full flex px-20 flex-col gap-10 mt-10 pb-5">
               <h2 className="font-semibold text-3xl">Comments</h2>
-              <div className="w-full h-full grid grid-cols-2 gap-5">
+              <div className="w-full h-full grid lg:grid-cols-2 grid-cols-1 gap-5">
                 <MapDetailCommentForm
                   markerId={marker.id}
                   refetch={comments.refetch}
                 />
-                {comments.data?.map((comment) => {
-                  return (
-                    <MapDetailComment key={comment.id} comment={comment} />
-                  );
-                })}
+                {comments.data &&
+                  comments.data.map((comment) => {
+                    return (
+                      <MapDetailComment key={comment.id} comment={comment} />
+                    );
+                  })}
               </div>
             </div>
           </div>

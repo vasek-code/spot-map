@@ -28,7 +28,7 @@ export const HamburgerMenuBackground: React.FC<{
 
   return ReactDOM.createPortal(
     <div
-      className={`w-full bg-black absolute top-20 ${
+      className={`w-full bg-black absolute top-16 md:top-20 ${
         clicked ? (opened ? styles.bgOpened : styles.bgClosed) : ""
       } ${closed ? "scale-0" : ""}`}
       style={{

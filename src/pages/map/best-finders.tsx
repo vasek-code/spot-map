@@ -21,6 +21,8 @@ const BestFindersPage: NextPage<{
     refetchOnWindowFocus: false,
   });
 
+  if (bestFinders.isLoading) return null;
+
   return (
     <>
       <style>
@@ -71,15 +73,20 @@ const BestFindersPage: NextPage<{
                 <h3>Total Places</h3>
                 <h3>Best Place</h3>
               </div>
-              {bestFinders.data?.map((finder) => {
-                return (
-                  <BestFindersFinder
-                    id={finder.id}
-                    totalStars={finder.totalStars}
-                    totalVotes={finder.totalVotes}
-                  />
-                );
-              })}
+              {bestFinders.data &&
+                bestFinders.data.map((finder) => {
+                  return (
+                    <BestFindersFinder
+                      totalPlaces={finder.totalPlaces}
+                      id={finder.id}
+                      totalStars={finder.totalStars}
+                      totalVotes={finder.totalVotes}
+                      avatarUrl={finder.avatarUrl}
+                      name={finder.name}
+                      bestPlace={finder.bestPlace}
+                    />
+                  );
+                })}
             </div>
           </div>
         </div>

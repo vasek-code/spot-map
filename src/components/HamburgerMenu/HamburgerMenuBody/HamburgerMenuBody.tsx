@@ -15,7 +15,7 @@ export const HamburgerMenuBody: React.FC<{
   return ReactDOM.createPortal(
     <>
       <div
-        className={`min-h-screen bg-zinc-100 absolute top-20 ${
+        className={`min-h-screen bg-zinc-100 absolute top-16 md:top-20 ${
           clicked ? (opened ? styles.opened : styles.closed) : ""
         }`}
         style={{
