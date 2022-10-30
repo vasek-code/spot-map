@@ -37,17 +37,17 @@ const UserPage: NextPage = () => {
         <div className="w-full h-full flex p-4 bg-zinc-50 px-10 pt-7">
           <div className="w-full h-full flex flex-col">
             <BackToMapButton />
-            <div className="flex justify-start flex-col gap-3 pt-10">
+            <div className="flex justify-start flex-col gap-3 pt-6">
               <img
                 src={
                   user.data?.avatarUrl === ""
                     ? "/images/undraw_pic_profile.svg"
                     : user.data?.avatarUrl
                 }
-                className="rounded-full border-2 border-zinc-2 w-full h-full"
+                className="rounded-2xl border-2 border-zinc-200 w-full h-full"
                 style={{
-                  maxWidth: "170px",
-                  maxHeight: "170px",
+                  maxWidth: "150px",
+                  maxHeight: "150px",
                 }}
                 alt="profile picture"
                 draggable={false}
@@ -59,19 +59,24 @@ const UserPage: NextPage = () => {
               </h2>
             </div>
             <div className="flex pt-5 items-center gap-3">
-              <h2 className="font-medium text-xl">User details</h2>
+              <h2 className="font-bold text-xl">User details</h2>
               <button className="w-10 h-10 p-2 hover:bg-zinc-100 active:bg-zinc-200 transition-all rounded-full flex items-center justify-center">
                 <HiOutlinePencil className="w-5 h-5 text-blue-600" />
               </button>
             </div>
-            <div className="flex">
-              <div className="flex w-full flex-col">
+            <div className="flex text-zinc-600 max-w-sm">
+              <div className="flex w-full flex-col gap-3">
                 <h2>Email</h2>
                 <h2>Total places</h2>
                 <h2>Member since</h2>
               </div>
-              <div className="flex w-full flex-col">
-                <h2>{user.data?.email}</h2>
+              <div className="flex w-full flex-col gap-3">
+                <a
+                  href={`mailto:${user.data?.email}`}
+                  className="text-blue-600"
+                >
+                  {user.data?.email}
+                </a>
                 <h2>Total places</h2>
                 <h2>Member since</h2>
               </div>
